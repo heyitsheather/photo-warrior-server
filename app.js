@@ -15,7 +15,7 @@ require("./config/passport-setup.js");
 
 
 mongoose
-  .connect('mongodb://localhost/ironphones-server', {useNewUrlParser: true})
+  .connect('mongodb://localhost/photo-warrior-server', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -50,9 +50,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-const phoneRouter = require("./routes/phone-router.js");
-// "/api" means all the the routes in phone-router.js will start with "/api"
-app.use("/api", phoneRouter);
+// const phoneRouter = require("./routes/phone-router.js");
+// // "/api" means all the the routes in phone-router.js will start with "/api"
+// app.use("/api", phoneRouter);
 
 const authRouter = require("./routes/auth-router.js");
 app.use("/api", authRouter);

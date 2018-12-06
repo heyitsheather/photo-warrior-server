@@ -23,8 +23,15 @@ const userSchema = new Schema(
       enum: ["normal", "admin"],
       required: true,
       default: "normal"
-    }
+    },
+    // ids of galleries that others have given you access to
+    othersGalleries:[
+      {type:Schema.Types.ObjectId,ref:"Gallery"}
+    ],
+
   },
+
+  
   {
     // additional settings for the Schema class
     timestamps: true
