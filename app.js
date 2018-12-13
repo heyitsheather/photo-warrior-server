@@ -15,7 +15,7 @@ require("./config/passport-setup.js");
 
 
 mongoose
-  .connect('mongodb://localhost/photo-warrior-server', {useNewUrlParser: true})
+  .connect(process.env.MONGODB_URI, {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -55,7 +55,9 @@ app.use(passport.session());
 // app.use("/api", phoneRouter);
 
 const authRouter = require("./routes/auth-router.js");
+const photoRouter = require("./routes/photo-router.js");
 app.use("/api", authRouter);
+app.use("/api", photoRouter)
 
 
 module.exports = app;
