@@ -28,32 +28,29 @@ router.get("/photos", (req, res, next)=>{
       .catch(err => next(err));
   });
 
-  //update if photo has been seen
+  // update if photo has been selected
+
+  router.put("/photos", (req, res, next) => {
+    const { selectedIds, seenIds } = req.body;
   
-  router.put("/photos", ( res, next) => {
-   
-    Photo.findByIdAndUpdate(
-      id,
-      { $set: { hasBeenSeen: true } },
+    Photo.updateMany(
+      { _id: selectedIds, photoOwner: req.user._id },
+      { $set: { isChosen: true } },
       // "new" gets the update version of the document
       { runValidators: true, new: true },
     )
-    .then(photoDoc => res.json(photoDoc))
+    .then(() => {
+      Photo.updateMany(
+        { _id: seenIds, photoOwner: req.user._id },
+        { $set: { hasBeenSeen: true } },
+        // "new" gets the update version of the document
+        { runValidators: true, new: true },
+      )
+      .then(() => res.json({ result: "Culling successful." }))
+      .catch(err => next(err));
+    })
     .catch(err => next(err));
   });
-
-  router.put("/photos", ( res, next) => {
-   
-    Photo.findByIdAndUpdate(
-      id,
-      { $set: { hasBeenSeen: true } },
-      // "new" gets the update version of the document
-      { runValidators: true, new: true },
-    )
-    .then(photoDoc => res.json(photoDoc))
-    .catch(err => next(err));
-  });
-
 
 
  
